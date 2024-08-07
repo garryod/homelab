@@ -18,4 +18,8 @@ spec:
   destination:
     namespace: argocd
     server: {{ .Values.server }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
 {{- end }}
