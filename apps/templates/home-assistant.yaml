@@ -1,0 +1,27 @@
+{{- if .Values.homeAssistant.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: home-assistant
+  namespace: {{ .Release.Namespace }}
+spec:
+  project: default
+  source:
+    repoURL: https://pajikos.github.io/home-assistant-helm-chart
+    chart: home-assistant
+    targetRevision: {{ .Values.homeAssistant.targetRevision }}
+    {{- if .Values.homeAssistant.valuesObject }}
+    helm:
+      valuesObject:
+        {{- .Values.homeAssistant.valuesObject | toYaml | nindent 8 }}
+    {{- end }}
+  destination:
+    namespace: home-assistant
+    server: {{ .Values.server }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+{{- end }}

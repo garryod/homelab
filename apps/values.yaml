@@ -22,3 +22,11 @@ metricsServer:
     tolerations:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
+
+homeAssistant:
+  enabled: true
+  targetRevision: 0.2.71
+  valuesObject:
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
