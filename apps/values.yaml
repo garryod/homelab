@@ -1,0 +1,14 @@
+server: https://kubernetes.default.svc
+
+argocd:
+  enabled: true
+  targetRevision: 7.4.1
+  valuesObject:
+    global:
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+    repoServer:
+      env:
+        - name: ARGOCD_GIT_MODULES_ENABLED
+          value: "false"
