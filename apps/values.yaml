@@ -12,3 +12,13 @@ argocd:
       env:
         - name: ARGOCD_GIT_MODULES_ENABLED
           value: "false"
+
+metricsServer:
+  enabled: true
+  targetRevision: 3.12.1
+  valuesObject:
+    args:
+      - --kubelet-insecure-tls
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
