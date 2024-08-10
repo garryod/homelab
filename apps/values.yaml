@@ -30,3 +30,11 @@ homeAssistant:
     tolerations:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
+
+sealedSecrets:
+  enabled: true
+  targetRevision: 2.16.1
+  valuesObject:
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
