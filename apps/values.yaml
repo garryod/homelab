@@ -38,3 +38,10 @@ sealedSecrets:
     tolerations:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
+
+ddns:
+  enabled: true
+  valuesObject:
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule

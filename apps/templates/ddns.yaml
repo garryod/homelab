@@ -1,0 +1,27 @@
+{{- if .Values.ddns.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ddns
+  namespace: {{ .Release.Namespace }}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/garryod/homelab
+    path: ddns
+    targetRevision: HEAD
+    {{- if .Values.ddns.valuesObject }}
+    helm:
+      valuesObject:
+        {{- .Values.ddns.valuesObject | toYaml | nindent 8 }}
+    {{- end }}
+  destination:
+    namespace: ddns
+    server: {{ .Values.server }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+{{- end }}
