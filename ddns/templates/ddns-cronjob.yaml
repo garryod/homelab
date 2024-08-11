@@ -1,0 +1,38 @@
+{{ $url := urlJoin (dict "scheme" "https" "host" "www.duckdns.org" "path" "/update" "query" "domains=$(DOMAIN)&token=$(TOKEN)&ip=") }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ddns
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: ddns
+              image: docker.io/curlimages/curl:8.9.1
+              args:
+                - "-v"
+                - {{ $url }}
+              env:
+                - name: DOMAIN
+                  value: {{ .Values.domain }}
+                - name: TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: "{{ .Release.Name }}-duckdns"
+                      key: token
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]
+                runAsUser: 1
+                seccompProfile: 
+                  type: RuntimeDefault
+          restartPolicy: Never
+          {{- if .Values.tolerations }}
+          tolerations:
+            {{ .Values.tolerations | toYaml | nindent 12 }}
+          {{- end }}
