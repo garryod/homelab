@@ -1,0 +1,27 @@
+{{- if .Values.minecraft.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minecraft
+  namespace: {{ .Release.Namespace }}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/garryod/homelab
+    path: minecraft
+    targetRevision: HEAD
+    {{- if .Values.minecraft.valuesObject }}
+    helm:
+      valuesObject:
+        {{- .Values.minecraft.valuesObject | toYaml | nindent 8 }}
+    {{- end }}
+  destination:
+    namespace: minecraft
+    server: {{ .Values.server }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+{{- end }}
