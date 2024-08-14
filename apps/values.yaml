@@ -45,3 +45,17 @@ ddns:
     tolerations:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
+
+localPathStorage:
+  enabled: true
+  targetRevision: 0.0.28
+  valuesObject:
+    nodePathMap:
+      - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
+        paths:
+          - /var/local-path-provisioner
+    storageClass:
+      defaultClass: true
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule

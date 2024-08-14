@@ -1,0 +1,30 @@
+{{- if .Values.localPathStorage.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: local-path-storage
+  namespace: {{ .Release.Namespace }}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rancher/local-path-provisioner
+    path: deploy/chart/local-path-provisioner
+    targetRevision: {{ .Values.localPathStorage.targetRevision }}
+    {{- if .Values.localPathStorage.valuesObject }}
+    helm:
+      valuesObject:
+        {{- .Values.localPathStorage.valuesObject | toYaml | nindent 8 }}
+    {{- end }}
+  destination:
+    namespace: local-path-storage
+    server: {{ .Values.server }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+{{- end }}
