@@ -1,0 +1,21 @@
+options:
+  eula: true
+  type: fabric
+  version: latest
+  difficulty: normal
+  mode: survival
+
+storageSize: 1Gi
+
+jvm:
+  memory:
+    init: 1G
+    max: 4G
+
+resources:
+  requests:
+    cpu: 1000m
+    memory: 1Gi
+
+service:
+  nodePort: 32565

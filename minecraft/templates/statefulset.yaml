@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "common.labels.matchLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "common.labels.standard" . | nindent 8 }}
+    spec:
+      containers:
+        - name: minecraft
+          image: docker.io/itzg/minecraft-server:{{ .Chart.AppVersion }}
+          stdin: true
+          tty: true
+          env:
+            - name: EULA
+              value: {{ .Values.options.eula | quote }}
+            - name: TYPE
+              value: {{ .Values.options.type }}
+            - name: VERSION 
+              value: {{ .Values.options.version | quote }}
+            - name: DIFFICULTY
+              value: {{ .Values.options.difficulty }}
+            - name: MODE
+              value: {{ .Values.options.mode }}
+            {{- if .Values.jvm.memory.init}}
+            - name: INIT_MEMORY
+              value: {{ .Values.jvm.memory.init }}
+            {{- end }}
+            {{- if .Values.jvm.memory.max }}
+            - name: MAX_MEMORY
+              value: {{ .Values.jvm.memory.max }}
+            {{- end }}
+          volumeMounts:
+            - name: "{{ include "common.names.fullname" . }}-data"
+              mountPath: /data
+          {{- if .Values.resources }}
+          resources:
+            {{- .Values.resources | toYaml | nindent 12 }}
+          {{- end }}
+          livenessProbe:
+            exec:
+              command:
+                - mc-health
+            initialDelaySeconds: 120
+            periodSeconds: 60
+          readinessProbe:
+            exec:
+              command:
+                - mc-health
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            failureThreshold: 12
+  volumeClaimTemplates:
+    - metadata:
+        name: "{{ include "common.names.fullname" . }}-data"
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+            requests:
+              storage: {{ .Values.storageSize }}
