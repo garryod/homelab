@@ -12,6 +12,10 @@ argocd:
       env:
         - name: ARGOCD_GIT_MODULES_ENABLED
           value: "false"
+    dex:
+      enabled: false
+    notifications:
+      enabled: false
 
 metricsServer:
   enabled: true
