@@ -1,9 +1,13 @@
 options:
   eula: true
-  type: fabric
+  type: auto_curseforge
   version: latest
   difficulty: normal
   mode: survival
+  mods:
+    curseForge:
+      slug: auto-terrafirmacraft-tfc-create
+      filename: 1.10.4
 
 storageSize: 1Gi
 

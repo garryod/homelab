@@ -39,6 +39,17 @@ spec:
             - name: MAX_MEMORY
               value: {{ .Values.jvm.memory.max }}
             {{- end }}
+            {{- if .Values.options.mods.curseForge }}
+            - name: CF_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-curseforge-token"
+                  key: token
+            - name: CF_SLUG
+              value: {{ .Values.options.mods.curseForge.slug }}
+            - name: CF_FILENAME_MATCHER
+              value: {{ .Values.options.mods.curseForge.filename }}
+          {{- end }}
           volumeMounts:
             - name: "{{ include "common.names.fullname" . }}-data"
               mountPath: /data
