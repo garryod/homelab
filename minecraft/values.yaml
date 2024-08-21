@@ -4,6 +4,7 @@ options:
   version: latest
   difficulty: normal
   mode: survival
+  message: GrineCraft - Requires \u00A78forge:auto-terrafirmacraft-tfc-create
   mods:
     curseForge:
       slug: auto-terrafirmacraft-tfc-create

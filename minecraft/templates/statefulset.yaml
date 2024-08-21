@@ -31,6 +31,8 @@ spec:
               value: {{ .Values.options.difficulty }}
             - name: MODE
               value: {{ .Values.options.mode }}
+            - name: MOTD
+              value: {{ .Values.options.message }}
             {{- if .Values.jvm.memory.init}}
             - name: INIT_MEMORY
               value: {{ .Values.jvm.memory.init }}
