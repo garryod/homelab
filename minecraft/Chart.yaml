@@ -2,7 +2,7 @@ apiVersion: v2
 name: minecraft
 type: application
 version: 0.1.0
-appVersion: 2024.7.2
+appVersion: 2025.4.0
 
 dependencies:
   - name: common
