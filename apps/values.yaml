@@ -2,7 +2,7 @@ server: https://kubernetes.default.svc
 
 argocd:
   enabled: true
-  targetRevision: 7.4.1
+  targetRevision: 7.8.28
   valuesObject:
     global:
       tolerations:
@@ -19,7 +19,7 @@ argocd:
 
 metricsServer:
   enabled: true
-  targetRevision: 3.12.1
+  targetRevision: 3.12.2
   valuesObject:
     args:
       - --kubelet-insecure-tls
@@ -29,7 +29,7 @@ metricsServer:
 
 homeAssistant:
   enabled: true
-  targetRevision: 0.2.71
+  targetRevision: 0.2.119
   valuesObject:
     tolerations:
       - key: node-role.kubernetes.io/control-plane
@@ -37,7 +37,7 @@ homeAssistant:
 
 sealedSecrets:
   enabled: true
-  targetRevision: 2.16.1
+  targetRevision: 2.17.2
   valuesObject:
     tolerations:
       - key: node-role.kubernetes.io/control-plane
@@ -52,7 +52,7 @@ ddns:
 
 localPathStorage:
   enabled: true
-  targetRevision: 0.0.28
+  targetRevision: 0.0.31
   valuesObject:
     nodePathMap:
       - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
