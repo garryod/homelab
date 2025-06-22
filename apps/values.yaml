@@ -66,3 +66,15 @@ localPathStorage:
 
 minecraft:
   enabled: true
+
+jellyfin:
+  enabled: true
+  targetRevision: 2.3.0
+  valuesObject:
+    extraVolumes:
+      - name: hwa
+        hostPath:
+          path: /dev/dri
+    extraVolumeMounts:
+      - name: hwa
+        mountPath: /dev/dri
